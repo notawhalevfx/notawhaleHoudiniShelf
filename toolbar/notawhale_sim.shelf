@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="notawhale_sim" label="Sim">
+    <memberTool name="reset_simulation"/>
+  </toolshelf>
+
+  <tool name="reset_simulation" label="Reset Simulation" icon="PLASMA_App">
+    <helpText><![CDATA[= Reset Simulation =
+#name: reset simulation
+
+"""Script that reset current simulation. 
+If push with CTRL than reset all simuation in scene."""
+
+Usefull and simple script that reset current simulation. 
+
+If push CTRL+Click than reset all simuation in scene.]]></helpText>
+    <script scriptType="python"><![CDATA[########################
+# Reset Simulation
+# Nikita Musatov
+# not.a.whale@gmail.com
+#
+# skype: notawhale
+#
+########################
+
+def FindAllDopNetNode(node):
+    dop_nodes = []
+    if node.type().name() == "dopnet":
+        dop_nodes.append(node)
+    for nd in node.children():
+        dop_nodes += FindAllDopNetNode(nd)
+    return dop_nodes
+
+def ResetSimulation(dopnode):
+    if dopnode.type().name() == "dopnet":
+        dopnode.parm("resimulate").pressButton()
+
+if kwargs["ctrlclick"]:
+    for dopnode in FindAllDopNetNode(hou.root()):
+        ResetSimulation(dopnode)        
+else:
+    dopnode = hou.currentDopNet()
+    if dopnode!=None:
+        ResetSimulation(dopnode)]]></script>
+  </tool>
+</shelfDocument>
