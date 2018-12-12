@@ -7,6 +7,8 @@
 
   <toolshelf name="notawhale_sim" label="Sim">
     <memberTool name="reset_simulation"/>
+    <memberTool name="smkSizeFromSrc"/>
+    <memberTool name="trkPathFromSrc"/>
   </toolshelf>
 
   <tool name="reset_simulation" label="Reset Simulation" icon="PLASMA_App">
@@ -28,24 +30,40 @@ If push CTRL+Click than reset all simuation in scene.]]></helpText>
 #
 ########################
 
-def FindAllDopNetNode(node):
-    dop_nodes = []
-    if node.type().name() == "dopnet":
-        dop_nodes.append(node)
-    for nd in node.children():
-        dop_nodes += FindAllDopNetNode(nd)
-    return dop_nodes
+import notawhale.sim.reset
 
-def ResetSimulation(dopnode):
-    if dopnode.type().name() == "dopnet":
-        dopnode.parm("resimulate").pressButton()
+notawhale.sim.reset.run(kwargs)]]></script>
+  </tool>
 
-if kwargs["ctrlclick"]:
-    for dopnode in FindAllDopNetNode(hou.root()):
-        ResetSimulation(dopnode)        
-else:
-    dopnode = hou.currentDopNet()
-    if dopnode!=None:
-        ResetSimulation(dopnode)]]></script>
+  <tool name="smkSizeFromSrc" label="Smoke Object Size from Source" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[########################
+# Set Smoke Object size from Source Volume node
+# Nikita Musatov
+# not.a.whale@gmail.com
+#
+# skype: notawhale
+#
+#
+########################
+
+import notawhale.sim.smoke
+
+notawhale.sim.smoke.connectSourceToObject(kwargs)]]></script>
+  </tool>
+
+  <tool name="trkPathFromSrc" label="Tracking Path from Source Volume" icon="PLASMA_App">
+    <script scriptType="python"><![CDATA[########################
+# Set Tracking Path from Source Volume node
+# Nikita Musatov
+# not.a.whale@gmail.com
+#
+# skype: notawhale
+#
+#
+########################
+
+import notawhale.sim.smoke
+
+notawhale.sim.smoke.connectSourceToResizeTrackingObject(kwargs)]]></script>
   </tool>
 </shelfDocument>
