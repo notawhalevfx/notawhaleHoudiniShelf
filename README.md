@@ -1,4 +1,4 @@
 # notawhaleHoudiniShelf
 Houdini Shelf Tools
 
-Any contribution is welcome!
+Welcome and feels free to contribute!
